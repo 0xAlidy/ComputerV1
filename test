@@ -1,0 +1,36 @@
+python3.7 ./main.py 
+
+
+CONSIGNE :
+
+"5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0"
+
+BONUS : (pas obliger de mettre (1 *)) 
+
+"X^0 +  X^1 - X^2 = X^2 -  X^0 + X^1 + X^6"
+
+BONUS ++ : 
+
+(dans n'importe quel ordre):
+
+"X^0 + X^1 - X^2 = X^0 - X^1 + X^2 + X^6"
+
+(Pas oblige de mettre le *):
+
+"5 X^0 + 4 X^1 - X^2 = 3 X^0 - 2 X^1 + 5 X^2 + 6 X^6"  (SI possible sans les espaces entre)
+
+(marche meme s'il y a 0 * X^x):
+
+"5 X^0 + 0 X^1 - X^2 = 3 X^0 - 2 X^1 + 5 X^2 + 0 X^6"
+
+PARSING :
+
+* verifier le =
+
+* verifier les espaces
+
+* verifier qu' il y a bien un + ou un - apres le X^x
+
+* verifier qu'il y est bien une inconnue
+
+
