@@ -57,11 +57,10 @@ def print_reduced_form(poly):  # i de la forme (index, [nb, pui])
         if i[1][0]:
             if (i[1][0] < 0):
                 print(" - ", end = "")
-                print(i[1][0] * -1, end = "")
             elif (before == 1):
                 print (" + ", end = "")
             if (i[1][0] != 1):
-                print(i[1][0], end = "")
+                print(abs(i[1][0]), end = "")
             if (i[1][1]):
                 if (i[1][0] != 1):
                     print(" *" , end = "")

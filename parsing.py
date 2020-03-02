@@ -2,7 +2,7 @@ import sys
 
 
 #* Normal                            "5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0"
-#* naturel (sans X^0 et X^1 => X)    "5 + 4 * X - 9.3 * X^2 = - 5 * X"
+#* naturel (sans X^0 et X^1 => X)    "5 + 4 * X - 9.3 * X^2 = nb X"
 
 '''
 PARSING :
@@ -11,10 +11,9 @@ PARSING :
 2) seulement = + - * nb X(^x)    
 3) + - >>> avant : X , nb , =  apres : nb , X
    =   >>> avant : X , nb      apres : X , nb , + , -
-   *   >>> avant : nb               apres : X
-
-   nb      A faire
-   X       A faire  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   *   >>> avant : nb          apres : X   
+   X   >>> avant : *,+,-, =    apres : +,-,=,
+   nb  >>> avant : +, -, =     apres : X, =, *,+,-
 
 4) equivalent = equivalent ===> infinite de solutions
    sans monome = sans monome  ===> erreur
@@ -53,6 +52,10 @@ def check_before(s, item):
         return 0
     if (item == 3 and check_item(s) != 5):   # *   >>> avant : nb
         return 0
+    if (item == 4 and check_item(s) == 5): # X   >>> avant : *,+,-, =
+        return 0
+    if (item == 5 and (check_item(s) == 4 or check_item(s) == 5)): # nb  >>> avant : +, -, =
+        return 0
     return 1
 
 def check_after(s, item):
@@ -61,6 +64,10 @@ def check_after(s, item):
     if (item == 2 and (check_item(s) == 2 or check_item(s) == 3)): # =  >>> apres : X , nb , + , -
         return 0
     if (item == 3 and check_item(s) != 4):   # *   >>> apres : X
+        return 0
+    if (item == 4 and (check_item(s) == 4 or check_item(s) == 5)): # X  >>> apres : +,-,=,
+        return 0
+    if (item == 5 and check_item(s) == 5): # nb >>> apres : X, =, *, +, -
         return 0
     return 1
 
@@ -73,10 +80,8 @@ def parsing_equation():
         i = enum[0]
         s = enum[1]
         res = check_item(s)
-        if res == 4 or res == 5: # X ou X^x ou nb
-            pass
-        elif res > 0:  # 1 => - / + 2 => = 3 => *
-            if (res == 2 or res == 3) and (i == 0 or i == len(lst) - 1):
+        if res > 0:  # 1 => - / + 2 => = 3 => *
+            if ((res == 2 or res == 3) and (i == 0 or i == len(lst) - 1)) or (res == 1 and i == len(lst) - 1):
                 return 0
             if i > 0:
                 if check_before(lst[i - 1], res) == 0:
