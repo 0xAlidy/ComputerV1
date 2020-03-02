@@ -1,83 +1,106 @@
 #!/usr/bin/python3.7
 # -*-coding:Utf-8 -*
 # -*-coding:Latin-1 -*
-#import parsing
+import parsing
 import sys
 
-# parsing.start() Pas de parsing d'apres le sujet
+def program():
+    if parsing.run() == 0:
+        return 0
+    res = reduce_equation()
+    if res > 2:
+        print ("Je ne peux pas resoudre un polynome de degre superieur a 2.")
+    return 1
 
-            
-
-def print_params():
-    print("\narguments : ", end = "")
-    for i in sys.argv:
-        print(i, end = " , ")
-    print("\n\n", end = "")
-
-def remove_all(liste, item):
-    while (liste.count(item)):
-        liste.remove(item)
+def f_poly(poly, i, nb):
+    cpt = 0
+    check = 0
+    if parsing.check_unknow(i) == 1: # X
+        pui = 1
+    elif parsing.check_unknow(i) == 2: # X^x
+        pui = int(i[2])
+    else:
+        pui = 0
+    for k in poly:
+        if k[1] == pui:
+            check = -1
+        if check != -1:
+            cpt += 1
+    if check != -1:
+        poly.append([0, pui])
+    poly[cpt][0] += nb
 
 def fill_poly(poly, liste, inv):
     nb = 1 if inv == 0 else -1
-    res, check, cpt = 0, 0, 0
+    check = 0
     for i in liste:
-        if i[0] == 'X' or check:
-            pui = int(i[2])
-            for k in poly:
-                if k[1] == pui:
-                    check = -1
-                if check != -1:
-                    cpt += 1
-            if check != -1:
-                poly.append([0, pui])
-            poly[cpt][0] += nb
-            res = pui if pui > res and nb != 0 else res
-            check = 0
-            cpt = 0
-        elif i == '-':
-            nb = -1 if inv == 0 else 1
-        elif i == '+':
-            nb = 1 if inv == 0 else -1
+        if (i[0] == 'X' or check) and i != '*':
+           f_poly(poly, i, nb)
+           check = 0
+        elif i == '*' or i == '-' or i == '+':
+            pass
         else:
             nb *= int(i) if i.find('.') == -1 else float(i)
             check = 1
-    return res
+        if i == '-':
+            nb = -1 if inv == 0 else 1
+        elif i == '+':
+            nb = 1 if inv == 0 else -1
+    if check == 1:
+        f_poly(poly, i, nb)
 
 def print_reduced_form(poly):  # i de la forme (index, [nb, pui])
     print("Forme reduite    : ", end = "")
+    before = 0
+    degre = 0
     for i in enumerate(poly):
         if i[1][0]:
             if (i[1][0] < 0):
                 print(" - ", end = "")
-                i[1][0] *= -1
-            elif (i[0] != 0):
+                print(i[1][0] * -1, end = "")
+            elif (before == 1):
                 print (" + ", end = "")
-            print(i[1][0], end = "")
+            if (i[1][0] != 1):
+                print(i[1][0], end = "")
             if (i[1][1]):
-                print(" *" , end = "")
-            if i[1][1]:
+                if (i[1][0] != 1):
+                    print(" *" , end = "")
+            if i[1][1] == 1:
+                print(" X", end = "")
+                degre = 1 if degre == 0 else degre
+            elif i[1][1] > 1:
                 print(" X^", i[1][1], end = "", sep = "")
-    print(" = 0")
-            
+                degre = i[1][1] if degre < i[1][1] else degre
+            before = 1
+    if before == 0:
+        pass
+    else:
+        print(" = 0")
+    return degre
+
+def get_degre(poly):
+    degre = 0
+    for i in poly:
+        degre = i[1] if i[1] > degre and i[0] != 0 else degre
+    return degre
 
 def reduce_equation():
     poly = []
     temp = sys.argv[1].split('=')   
     left_equ = list(filter(None, temp[0].split(" ")))
-    remove_all(left_equ, "*")
     right_equ = list(filter(None, temp[1].split(" ")))
-    remove_all(right_equ, "*")
-    print("gauche : ",left_equ,"\n\ndroite : ", right_equ, "\n")
-    res = fill_poly(poly, left_equ, 0)
-    res2 = fill_poly(poly, right_equ, 1) 
-    res = res2 if res2 > res else res
-    print_reduced_form(poly)
-    print ("Polynome de degre:", res)
+    fill_poly(poly, left_equ, 0)
+    degre = get_degre(poly)
+    fill_poly(poly, right_equ, 1)
+    degre2 = get_degre(poly)
+    if (degre == 0 and degre2 == 0):
+        print("ERREUR: Il n'y a aucuns monomes")
+        return 0
+    res = print_reduced_form(poly)
+    if ((degre > 0 or degre2 > 0) and res == 0):
+        print ("0 (Le cote gauche est equivalent au cote droit)\nPolynome de degre: 0\nIl existe une infinite de solutions")
+    else:
+        print ("Polynome de degre:", res)
     return res
-        
 
-print_params()
-res = reduce_equation()
-if res > 2:
-    print ("Je ne peux pas resoudre un polynome de degre superieur a 2.")
+program()
