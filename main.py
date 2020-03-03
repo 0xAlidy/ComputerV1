@@ -15,7 +15,6 @@ def program():
     if res > 2:
         print ("Impossible de resoudre un polynome de degre superieur a 2.")
     poly = sorted(poly, key=operator.itemgetter(1)) # tri le tableau en fonction du degre
-    print(poly)
     if res == 1:
         solve.solve_first_degre(poly)
     elif res == 2:

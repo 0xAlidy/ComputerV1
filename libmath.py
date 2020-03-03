@@ -17,4 +17,17 @@ def ft_sqrt(nb):
     while ft_abs(y - x) > 0.0001:
         x = y
         y = 0.5 * (x + nb / x)
-    return y   
+    return y
+
+def ft_around(nb, precision):
+    number = str(nb)
+    index = number.index('.') + 1
+    entier = number[:index]
+    decimal = number[index:]
+    save = int(decimal[precision + 1])
+    decimal = int(decimal[:precision])
+    if (save >= 5):
+        decimal += 1
+    decimal = str(decimal)
+    number = entier + decimal
+    return float(number)

@@ -50,7 +50,7 @@ def print_reduced_form(poly):  # i de la forme (index, [nb, pui])
             elif (before == 1):
                 print (" + ", end = "")
             if (i[1][0] != 1):
-                print(libmath.ft_abs(i[1][0]), end = "")
+                print(libmath.ft_around(libmath.ft_abs(i[1][0]), 2), end = "") #around a cause de la non precision des calculs en binaire
             if (i[1][1]):
                 if (i[1][0] != 1):
                     print(" *" , end = "")
