@@ -1,6 +1,5 @@
 import sys
 
-
 #* Normal                            "5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0"
 #* naturel (sans X^0 et X^1 => X)    "5 + 4 * X - 9.3 * X^2 = nb X"
 

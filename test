@@ -24,17 +24,5 @@ BONUS ++ :
 
 ultime test:
 
-"3 + 0 * X^9 - X^2 = - 3 * X^1 - X^1 - 5 * X^2 - 1"
-
-
-PARSING :
-
-* verifier le =
-
-* verifier les espaces
-
-* verifier qu' il y a bien un + ou un - apres le X^x
-
-* verifier qu'il y est bien une inconnue
-
+"X - 3 + 0 * X^9 - X^2 = - 3 * X^1 - X^1 - 5 * X^2 - 1"
 
