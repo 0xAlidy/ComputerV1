@@ -1,13 +1,13 @@
-import sys
-import parsing
-import libmath
+from sys import *
+from parsing import *
+from libmath import *
 
 def f_poly(poly, i, nb):
     cpt = 0
     check = 0
-    if parsing.check_unknow(i) == 1: # X
+    if check_unknow(i) == 1: # X
         pui = 1
-    elif parsing.check_unknow(i) == 2: # X^x
+    elif check_unknow(i) == 2: # X^x
         pui = int(i[2])
     else:
         pui = 0
@@ -50,7 +50,7 @@ def print_reduced_form(poly):  # i de la forme (index, [nb, pui])
             elif (before == 1):
                 print (" + ", end = "")
             if (i[1][0] != 1):
-                print(libmath.ft_around(libmath.ft_abs(i[1][0]), 2), end = "") #around a cause de la non precision des calculs en binaire
+                print(ft_around(ft_abs(i[1][0]), 3), end = "") #around a cause de la non precision des calculs en binaire
             if (i[1][1]):
                 if (i[1][0] != 1):
                     print(" *" , end = "")
@@ -75,7 +75,7 @@ def get_degre(poly):
 
 def reduce_equation():
     poly = []
-    temp = sys.argv[1].split('=')   
+    temp = argv[1].split('=')   
     left_equ = list(filter(None, temp[0].split(" ")))
     right_equ = list(filter(None, temp[1].split(" ")))
     fill_poly(poly, left_equ, 0)

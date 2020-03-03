@@ -24,10 +24,14 @@ def ft_around(nb, precision):
     index = number.index('.') + 1
     entier = number[:index]
     decimal = number[index:]
-    save = int(decimal[precision + 1])
+    if precision < len(decimal):
+        save = int(decimal[precision + 1])
+    else:
+        save = 0
     decimal = int(decimal[:precision])
     if (save >= 5):
         decimal += 1
     decimal = str(decimal)
     number = entier + decimal
     return float(number)
+
